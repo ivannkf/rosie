@@ -54,11 +54,17 @@ public class FeedAdapter extends BaseAdapter {
     HipsterViewModel hipsterViewModel = hipsters.get(position);
 
     nameTitleView.setText(hipsterViewModel.getName());
-    picasso.load(hipsterViewModel.getAvatarUrl())
-        .fit()
-        .centerCrop()
-        .transform(transformation)
-        .into(avatarView);
+
+    if(hipsterViewModel.getAvatarUrl() != null) {
+      picasso.load(hipsterViewModel.getAvatarUrl())
+          .fit()
+          .centerCrop()
+          .placeholder(R.drawable.placeholder)
+          .transform(transformation)
+          .into(avatarView);
+    }else{
+      avatarView.setImageResource(R.drawable.placeholder);
+    }
 
     return convertView;
   }
