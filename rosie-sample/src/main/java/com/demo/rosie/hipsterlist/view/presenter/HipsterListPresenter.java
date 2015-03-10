@@ -6,7 +6,7 @@ import com.demo.rosie.hipsterlist.view.model.HipsterViewModel;
 import com.rosie.view.presenter.Presenter;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.List;
 
