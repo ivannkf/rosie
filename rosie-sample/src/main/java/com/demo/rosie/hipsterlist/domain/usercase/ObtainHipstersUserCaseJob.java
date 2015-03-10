@@ -2,7 +2,7 @@ package com.demo.rosie.hipsterlist.domain.usercase;
 
 import com.demo.rosie.hipsterlist.view.model.HipsterListViewModel;
 import com.demo.rosie.hipsterlist.view.model.HipsterViewModel;
-import com.rosie.domain.usercase.UserCaseHandler;
+import com.rosie.domain.usercase.Response;
 
 import java.util.ArrayList;
 
@@ -13,14 +13,11 @@ import javax.inject.Inject;
  */
 public class ObtainHipstersUserCaseJob implements ObtainHipstersUserCase {
 
-  private final UserCaseHandler userCaseHandler;
-
   @Inject
-  public ObtainHipstersUserCaseJob(UserCaseHandler userCaseHandler) {
-    this.userCaseHandler = userCaseHandler;
+  public ObtainHipstersUserCaseJob() {
   }
 
-  public void obtainHipsters() {
+  public void obtainHipsters(@Response ObtainHipstersCallback callback) {
     //HipsterListViewModel hipsterListViewModel = hipsterParse.parse();
     HipsterListViewModel hipsterListViewModel = new HipsterListViewModel();
     HipsterViewModel hipsterTest = new HipsterViewModel();
@@ -32,7 +29,7 @@ public class ObtainHipstersUserCaseJob implements ObtainHipstersUserCase {
     ArrayList<HipsterViewModel> hipsterViewModels = new ArrayList<HipsterViewModel>();
     hipsterViewModels.add(hipsterTest);
     hipsterListViewModel.setHipsters(hipsterViewModels);
-    userCaseHandler.sendUiMessage(hipsterListViewModel);
+    callback.onHipsterObtained(hipsterListViewModel);
   }
 
 }

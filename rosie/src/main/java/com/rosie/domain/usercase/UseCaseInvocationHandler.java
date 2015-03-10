@@ -2,6 +2,7 @@ package com.rosie.domain.usercase;
 
 import com.path.android.jobqueue.JobManager;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
@@ -25,6 +26,16 @@ public class UseCaseInvocationHandler implements java.lang.reflect.InvocationHan
     }
 
     public Object invoke(Object proxy, final Method m, final Object[] args) {
+        Annotation[][] parameterAnnotations = m.getParameterAnnotations();
+        int parameter = 0;
+        for (Annotation[] annotations: parameterAnnotations) {
+            for (Annotation annotation: annotations) {
+                if (annotation.annotationType().equals(Response.class)) {
+                    args[parameter] = ResponseInvocationHandler.getProxy(jobManager, args[parameter]);
+                }
+            }
+            ++parameter;
+        }
         InvocationJobWrapper jobWrapper = new InvocationJobWrapper(useCase, m, args);
         jobManager.addJob(jobWrapper);
         jobManager.start();

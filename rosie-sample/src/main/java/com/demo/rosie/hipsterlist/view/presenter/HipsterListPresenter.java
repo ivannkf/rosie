@@ -5,7 +5,6 @@ import com.demo.rosie.hipsterlist.view.model.HipsterListViewModel;
 import com.demo.rosie.hipsterlist.view.model.HipsterViewModel;
 import com.rosie.view.presenter.Presenter;
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +28,15 @@ public class HipsterListPresenter extends Presenter {
   }
 
   public void obtainHipsters() {
-    obtainHipstersUserCase.obtainHipsters();
-  }
+    obtainHipstersUserCase.obtainHipsters(new ObtainHipstersUserCase.ObtainHipstersCallback() {
+        @Override
+        public void onHipsterObtained(HipsterListViewModel hipsterListViewModel) {
+            hipsters.clear();
+            hipsters.addAll(hipsterListViewModel.getHipsters());
 
-  @Subscribe
-  public void hipstersObtained(HipsterListViewModel hipsterListViewModel) {
-    hipsters.clear();
-    hipsters.addAll(hipsterListViewModel.getHipsters());
-
-    view.updateList();
+            view.updateList();
+        }
+    });
   }
 
   public List<HipsterViewModel> getHipsters() {
